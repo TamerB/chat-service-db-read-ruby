@@ -41,21 +41,35 @@ class RabbitMqServer < ApplicationController
     end
 
     def forward_action(value)
-        case value['action']
-        when 'application.show'
-            application = Application.where(token: value['params']).includes(:chats).first
-            return {data: {application: application, chats: application.chats}, status: 200}
-        when 'chat.show'
-            chat = Chat.where(token: value['params']['application_token'], number: value['params']['number']).includes(:messages).first
-            return {data: {chat: chat, messages: chat.messages}, status: 200}
-        when 'message.index'
-            messages = Message.where(token: value['params']['application_token'], chat_number: value['params']['chat_number']).order('created_at')
-            return {data: {messages: messages, total: messages.length}, status: 200}
-        when 'message.show'
-            message = Message.where(token: value['params']['application_token'], chat_number: value['params']['chat_number'], number: value['params']['number']).first
-            return {data: message, status: 200}
-        else
-            return {data: 'unrecognized operation', status: 400}
+        begin
+            case value['action']
+            when 'application.show'
+                application = Application.where(token: value['params']).includes(:chats).first
+                return {data: {application: application, chats: application.chats}, status: 200}
+            when 'chat.show'
+                chat = Chat.where(token: value['params']['application_token'], number: value['params']['number']).includes(:messages).first
+                return {data: 'chat not found', status: 404} if chat.nil?
+                return {data: {chat: chat, messages: chat.messages}, status: 200}
+            when 'message.index'
+                return {data: 'chat not found', status: 404} if Chat.where(token: value['params']['application_token'], chat_number: value['params']['chat_number']).nil?
+                messages = Message.where(token: value['params']['application_token'], chat_number: value['params']['chat_number']).order('created_at')
+                return {data: {messages: messages, total: messages.length}, status: 200}
+            when 'message.show'
+                message = Message.where(token: value['params']['application_token'], chat_number: value['params']['chat_number'], number: value['params']['number']).first
+                return {data: 'message not found', status: 404} if message.nil?
+                return {data: message, status: 200}
+            when 'message.search'
+                result = Message.search(value['params']['phrase'], fields: [:body], misspellings: {below: 5, edit_distance: 2}, where: {
+                    token: value['params']['application_token'],
+                    chat_number: value['params']['chat_number']
+                })
+                responseHash = JSON.parse(result.to_json)
+                return {data: responseHash['query'], status: 200}
+            else
+                return {data: 'unrecognized operation', status: 400}
+            end
+        rescue Exception
+            return {data: 'something went wrong', status: 500}
         end
     end
 end
