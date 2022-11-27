@@ -73,6 +73,7 @@ GEM
     bunny (2.19.0)
       amq-protocol (~> 2.3, >= 2.3.1)
       sorted_set (~> 1, >= 1.0.2)
+    chronic (0.10.2)
     composite_primary_keys (14.0.4)
       activerecord (~> 7.0.2)
     concurrent-ruby (1.1.10)
@@ -195,6 +196,8 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    whenever (1.0.0)
+      chronic (>= 0.6.3)
     zeitwerk (2.6.6)
 
 PLATFORMS
@@ -211,6 +214,7 @@ DEPENDENCIES
   rails (~> 7.0.4)
   searchkick (~> 5.1)
   tzinfo-data
+  whenever (~> 1.0)
 
 RUBY VERSION
    ruby 3.1.2p20
