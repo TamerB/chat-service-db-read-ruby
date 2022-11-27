@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  application: one
+  chat: one
+  number: 1
+  body: MyText
+
+two:
+  application: two
+  chat: two
+  number: 1
+  body: MyText
