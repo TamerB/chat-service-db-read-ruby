@@ -1,9 +1,10 @@
 class RabbitMqServer < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: -> {return {data: 'not found', status: 404}}
     def initialize
-        @connection = Bunny.new
+        @connection = Bunny.new(host: ENV.fetch('MQ_HOST'), automatically_recover: false)
         @connection.start
         @channel = @connection.create_channel
+        # Message.reindex
     end
     
     def start(queue_name)
@@ -68,8 +69,9 @@ class RabbitMqServer < ApplicationController
             else
                 return {data: 'unrecognized operation', status: 400}
             end
-        rescue Exception
-            return {data: 'something went wrong', status: 500}
+        rescue Exception => e
+            puts e
+            return {data: 'something went wrong 12358', status: 500}
         end
     end
 end
