@@ -46,6 +46,7 @@ class RabbitMqServer < ApplicationController
             case value['action']
             when 'application.show'
                 application = Application.where(token: value['params']).includes(:chats).first
+                return {data: 'application not found', status: 404} if application.nil?
                 return {data: {application: application, chats: application.chats}, status: 200}
             when 'chat.show'
                 chat = Chat.where(token: value['params']['application_token'], number: value['params']['number']).includes(:messages).first
