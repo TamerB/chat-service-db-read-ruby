@@ -191,6 +191,7 @@ GEM
     sorted_set (1.0.3)
       rbtree
       set (~> 1.0)
+    sqlite3 (1.5.4-x86_64-linux)
     thor (1.2.1)
     timeout (0.3.0)
     tzinfo (2.0.5)
@@ -216,6 +217,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.4)
   searchkick (~> 5.1)
+  sqlite3 (~> 1.4)
   tzinfo-data
   whenever (~> 1.0)
 
