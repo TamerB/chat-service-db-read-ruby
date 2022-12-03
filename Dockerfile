@@ -11,4 +11,6 @@ RUN bundle install
 
 COPY . .
 
+RUN crontab reindex_cron
+
 CMD ["rails", "server", "-b", "0.0.0.0"]

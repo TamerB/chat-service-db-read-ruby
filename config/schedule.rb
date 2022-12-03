@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.minute do
+env :PATH, ENV['PATH']
+
+every 2.minute do
     rake 'searchkick:reindex CLASS=Message'
 end

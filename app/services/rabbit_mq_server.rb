@@ -66,12 +66,14 @@ class RabbitMqServer < ApplicationController
                     chat_number: value['params']['chat_number']
                 })
                 responseHash = JSON.parse(result.to_json)
+                return {data: 'no results found', status: 404} if responseHash['query'].nil? or !responseHash['query'].is_a?(Array)
                 return {data: responseHash['query'], status: 200}
             else
                 return {data: 'unrecognized operation', status: 400}
             end
         rescue Exception => e
             puts e
+            return {data: 'no results found', status: 404} if e.class == Searchkick::MissingIndexError
             return {data: 'something went wrong 12358', status: 500}
         end
     end

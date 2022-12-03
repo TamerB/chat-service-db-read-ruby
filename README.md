@@ -73,12 +73,25 @@ Database password for production
 Elasticsearch HOST
 
 ## Build Docker image
+From the project's root directory, run the following command in terminal
 ```
 docker build -t chat-read:latest .
 ```
+If you change the docker image name or tag, you will need to change them in `docker-compose.yml` too.
 
 ## Test (not currently present)
 To run tests, from the project's root directory, run `rails test ./...` in terminal.
+
+## Reindexing Elasticsearch locally
+To reindex Elastic manually, run `rake searchkick:reindex CLASS=Message` in terminal.
+To run cronjob locally:
+- Make sure to set `PATH` environment variable to you environment (e.g. `development`)
+- Run `whenever` in terminal.
+- Make changes mentioned in the comments in `reindex_cron_local`.
+- Add cronjob to crontab by running `cat reindex_cron_local >> crontab`
+- To ensure that crontab is running, run `service cron status` (and `service cron restart` if not running).
+- Run `crontab -l` to ensure that crontab has your cronjob
+In `reindex_cron`, elasticsearh reindexing cronjob is set to run every 2 minutes. This is for testing purposes only. My recommendation is to increase the period between runs to a more reasonable period, as it is so unlikely that the user forgets the messages he/she sent in the last 2 minutes.
 
 ## Notes
 - This service uses MySQL for development and production. And uses Sqlite for testing.

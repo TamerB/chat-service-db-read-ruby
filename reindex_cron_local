@@ -1,0 +1,2 @@
+PATH=/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin # Update this line with `PATH` generated when you run `whenever` in terminal
+*/2 * * * * /bin/bash /app/reindex_local.sh
