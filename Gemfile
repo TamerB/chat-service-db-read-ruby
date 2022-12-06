@@ -44,6 +44,7 @@ gem 'bunny', '~> 2.19'
 gem 'searchkick', '~> 5.1'
 gem 'elasticsearch', '~> 7.17', '>= 7.17.7'
 gem 'whenever', '~> 1.0'
+gem 'kaminari', '~> 1.2', '>= 1.2.2'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
