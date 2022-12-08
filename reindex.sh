@@ -17,4 +17,4 @@ export MYSQL_PROD_PASS=mydb_pwd
 export ELASTICSEARCH_URL=http://elasticsearch:9200
 bundle update
 bundle install
-bundle exec rake searchkick:reindex CLASS=Message --silent
+bundle exec rake searchkick:reindex CLASS=Message --silent RAILS_ENV=production 2>&1
